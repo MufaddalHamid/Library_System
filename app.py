@@ -162,7 +162,7 @@ def CreateTransaction():
 def EditTransaction():
     SysId = request.args.get('SysId')
     Transaction = TransactionBC(SysId=SysId)
-    return render_template('Forms/Transaction.html', transaction = Transaction.get_transactions(),book=BookBC.get_books(None),member=MemberBC.get_members(None), status = 'Edit')
+    return render_template('Forms/Transaction.html', transaction = Transaction.get_transactions(),books=BookBC(None).get_books(),members=MemberBC(None).get_members(), status = 'Edit')
 
 @app.route('/SubmitTransaction', methods=['POST'])
 def SubmitTransaction():
@@ -179,9 +179,9 @@ def SubmitTransaction():
 def DeleteTransaction():
     SysId = request.args.get('SysId')
     Transaction = TransactionBC(SysId=SysId)
-    return render_template('Forms/Transaction.html', transaction=Transaction.get_transactions() , status = 'Delete')
+    return render_template('Forms/Transaction.html', transaction = Transaction.get_transactions(),books=BookBC(None).get_books(),members=MemberBC(None).get_members() , status = 'Delete')
 
-@app.route('/Delete', methods=['POST'])
+@app.route('/DeleteT', methods=['POST'])
 def DeleteT():
     if request.method == 'POST':
         if request.form.get('SysId') == 'None':
