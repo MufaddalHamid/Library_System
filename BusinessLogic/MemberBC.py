@@ -43,7 +43,7 @@ class MemberBC:
 
     def get_members(self):
         try:
-            print('called here')
+            print('called here M')
             if self.SysId is None:
                 return ActiveSession.Session.query(Members).all()
             else:

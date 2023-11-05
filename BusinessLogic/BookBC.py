@@ -43,7 +43,7 @@ class BookBC:
 
     def get_books(self):
         try:
-            print('called here')
+            print('called here B')
             if self.SysId is None:
                 return ActiveSession.Session.query(Books).all()
             else:

@@ -327,13 +327,13 @@
       {
         $.ajax({
                     type: 'POST',
-                    url: '/DeleteM',
-                    data: $('#member-form').serialize(), // Serialize form data
+                    url: '/DeleteT',
+                    data: $('#transaction-form').serialize(), // Serialize form data
                     success: function (response) {
                         console.log (response)
                         if (response.Code === 201) {
                             alert(response.message);
-                             window.location.href = '/Member';
+                             window.location.href = '/Transactions';
 
                         } else {
                             $('#error-message').text(response.message);

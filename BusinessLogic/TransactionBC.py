@@ -1,8 +1,5 @@
 import uuid
 from datetime import date
-
-from DataModel.Books import Books
-from DataModel.Members import Members
 from DataModel.Transactions import Transactions
 from DataModel.TransactionDTO import TransactionDTO
 from BusinessLogic.AppHelper import ActiveSession
@@ -16,6 +13,7 @@ class TransactionBC:
     def load_transaction(self):
         try:
             if self.SysId is not None:
+                print('SysID is not null')
                 self.transaction = ActiveSession.Session.query(Transactions).filter_by(SysId=self.SysId).first()
             else:
                 print('SysId not provided, initialized empty transaction')
@@ -48,7 +46,7 @@ class TransactionBC:
 
     def get_transactions(self):
         try:
-            print('called here')
+            print('called here T')
             if self.SysId is None:
                 results = ActiveSession.Session.query(Transactions).all()
                 return results
@@ -75,9 +73,17 @@ class TransactionBC:
 
     def delete_transaction(self):
         try:
+            # Make sure self.transaction is loaded or associated with the active session
+            if not ActiveSession.Session.object_session(self.transaction):
+                print('went in function')
+                # If it's not associated, query it from the database and add it to the session
+                self.transaction = ActiveSession.Session.query(Transactions).get(self.transaction.id)
+
+            # Now you should be able to delete it
             ActiveSession.Session.delete(self.transaction)
             ActiveSession.Session.commit()
-            return {"message": "transaction deleted successfully", 'Code': 201}
+            return {"message": "Transaction deleted successfully", "Code": 201}
         except Exception as e:
             ActiveSession.Session.rollback()
-            return {"message": str(e), 'Code': 500}
+            return {"message": str(e), "Code": 500}
+
